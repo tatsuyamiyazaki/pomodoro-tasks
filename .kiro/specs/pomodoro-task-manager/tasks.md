@@ -7,20 +7,20 @@
 
 ### Phase 1: プロジェクトセットアップと基盤構築
 
-- [ ] 1. プロジェクト初期化とビルド環境構築
-- [ ] 1.1 (P) Viteプロジェクトの作成とTypeScript設定
+- [x] 1. プロジェクト初期化とビルド環境構築
+- [x] 1.1 (P) Viteプロジェクトの作成とTypeScript設定
   - Vite 5でReact + TypeScriptプロジェクトを初期化
   - tsconfig.jsonで厳密な型チェック設定を有効化(noImplicitAny, strictNullChecksなど)
   - ビルドとdev serverが正常に起動することを確認
   - _Requirements: 10_
 
-- [ ] 1.2 (P) 依存関係のインストールと設定
+- [x] 1.2 (P) 依存関係のインストールと設定
   - Material-UI (MUI) v6, Zustand v4, @dnd-kit/core v6, @dnd-kit/sortableをインストール
   - ESLintとPrettierを設定し、コード品質ルールを適用
   - package.jsonにdev, build, previewスクリプトを追加
   - _Requirements: 10_
 
-- [ ] 1.3 (P) Feature-basedディレクトリ構造の作成
+- [x] 1.3 (P) Feature-basedディレクトリ構造の作成
   - src/features/(tasks, projects, tags, pomodoro, dashboard)ディレクトリを作成
   - src/shared/(components, types, utils)ディレクトリを作成
   - src/services/storage.tsファイルを作成
