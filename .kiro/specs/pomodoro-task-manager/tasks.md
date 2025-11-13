@@ -28,20 +28,20 @@
 
 ### Phase 2: データ永続化とストレージ基盤
 
-- [ ] 2. StorageServiceの実装
-- [ ] 2.1 (P) localStorage永続化サービスの構築
+- [x] 2. StorageServiceの実装
+- [x] 2.1 (P) localStorage永続化サービスの構築
   - save, load, remove, clear メソッドを実装
   - Result型でエラーハンドリングを実装(quota_exceeded, parse_error, not_found, unknown)
   - getUsedSpaceとgetAvailableSpaceメソッドを実装
   - _Requirements: 9_
 
-- [ ] 2.2 (P) エクスポート/インポート機能の実装
+- [x] 2.2 (P) エクスポート/インポート機能の実装
   - exportData()でJSON形式のデータをダウンロード可能にする
   - importData()でファイルアップロードとバージョン互換性チェックを実装
   - データバリデーション(必須フィールド、型検証)を追加
   - _Requirements: 9_
 
-- [ ] 2.3 (P) StorageServiceのユニットテスト
+- [x] 2.3 (P) StorageServiceのユニットテスト
   - save/loadの正常系とエラー系をテスト
   - 容量超過エラーのシミュレーション
   - exportData/importDataのデータ整合性テスト
