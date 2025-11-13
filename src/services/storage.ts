@@ -252,11 +252,12 @@ export class StorageService {
         return err('parse_error', msg)
       }
 
+      const s = storage as Storage
       function write(key: string, value: unknown) {
         const full = (typeof value === 'string' ? value : JSON.stringify(value)) as string
-        const exists = storage.getItem(key) !== null
+        const exists = s.getItem(key) !== null
         if (exists && strategy === 'merge') return
-        storage.setItem(key, full)
+        s.setItem(key, full)
       }
 
       try {
@@ -315,7 +316,9 @@ function validateExportData(data: ExportData): { errors: string[]; warnings: str
   // Tasks integrity
   for (const task of data.tasks) {
     if (!task || typeof task.id !== 'string' || task.id.length === 0) errors.push('task with invalid id')
-    if (typeof (task as any).title !== 'string') warnings.push(`task ${task?.id ?? '?'} missing/invalid title`)
+    const hasName = typeof (task as any).name === 'string'
+    const hasTitle = typeof (task as any).title === 'string'
+    if (!hasName && !hasTitle) warnings.push(`task ${task?.id ?? '?'} missing/invalid name`)
     if (typeof (task as any).completed !== 'boolean') warnings.push(`task ${task?.id ?? '?'} missing/invalid completed flag`)
     if (task.projectId && !projIds.has(task.projectId)) errors.push(`task ${task.id} references missing project ${task.projectId}`)
     if (Array.isArray(task.tagIds)) {
