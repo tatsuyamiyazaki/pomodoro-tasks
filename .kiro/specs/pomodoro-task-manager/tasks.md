@@ -49,37 +49,37 @@
 
 ### Phase 3: タスク管理の状態管理とビジネスロジック
 
-- [ ] 3. TaskStoreの実装
-- [ ] 3.1 タスクCRUD操作の実装
+- [x] 3. TaskStoreの実装
+- [x] 3.1 タスクCRUD操作の実装
   - createTask, updateTask, deleteTask, toggleTaskCompletionを実装
   - IDの自動生成(uuidまたはnanoid)とタイムスタンプ管理
   - StorageServiceと連携してlocalStorageに自動保存(デバウンス300ms)
   - _Requirements: 1, 9_
 
-- [ ] 3.2 サブタスク管理機能の実装
+- [x] 3.2 サブタスク管理機能の実装
   - addSubTask, updateSubTask, deleteSubTask, toggleSubTaskCompletionを実装
   - サブタスク完了率の計算ロジックを実装
   - すべてのサブタスク完了時の親タスク自動完了提案ロジック
   - _Requirements: 2_
 
-- [ ] 3.3 ビューフィルタリングロジックの実装
+- [x] 3.3 ビューフィルタリングロジックの実装
   - getFilteredTasks()で9種類のビュー(today, overdue, tomorrow, thisWeek, next7Days, highPriority, upcoming, completed, all)をサポート
   - 期限フィルタリング(今日、期限切れ、今週、次の7日間)の実装
   - 優先度フィルタリングと完了状態フィルタリングの実装
   - _Requirements: 5, 8_
 
-- [ ] 3.4 検索機能の実装
+- [x] 3.4 検索機能の実装
   - setSearchQuery()でクエリを設定
   - getFilteredTasks()内でname, description, tags, projectNameを対象に部分一致検索(大文字小文字区別なし)を実装
   - 検索結果のメモ化(useMemo)でパフォーマンス最適化
   - _Requirements: 10_
 
-- [ ] 3.5 タスクの並び替え機能の実装
+- [x] 3.5 タスクの並び替え機能の実装
   - reorderTasks(taskIds)でタスクのorder属性を更新
   - ドラッグ&ドロップ後の順序保持ロジック
   - _Requirements: 10_
 
-- [ ] 3.6 (P) TaskStoreのユニットテスト
+- [x] 3.6 (P) TaskStoreのユニットテスト
   - CRUD操作の正常系とエラー系をテスト
   - ビューフィルタリングロジックの各ビュータイプをテスト
   - 検索機能の部分一致とケース非依存をテスト
