@@ -54,7 +54,7 @@ describe('StorageService', () => {
     service.save('k1', { x: 1 })
     service.save('k2', { y: 'z' })
     // Place some domain-shaped data under expected keys
-    service.save('tasks', [{ id: 't1', title: 'A', completed: false }])
+    service.save('tasks', [{ id: 't1', name: 'A', completed: false }])
     service.save('projects', [{ id: 'p1', name: 'P' }])
     service.save('tags', [{ id: 'g1', name: 'G' }])
     service.save('pomodoro_settings', { focusMinutes: 25, shortBreakMinutes: 5, longBreakMinutes: 15, longBreakInterval: 4 })
