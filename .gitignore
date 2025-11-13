@@ -40,4 +40,5 @@ coverage
 .worktrees/
 .kamui/system-graph-state.json
 .kamui/model-versions-cache.json
+.kamui/manager/
 
