@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useReducer, useRef } from 'react'
+﻿import React, { createContext, useCallback, useContext, useEffect, useMemo, useReducer, useRef } from 'react'
 import { StorageService } from '../../services/storage'
 import type { PomodoroSettings } from '../../shared/types'
 import { useTaskStore } from '../tasks/store'
@@ -226,7 +226,6 @@ export function PomodoroProvider({ children }: { children: React.ReactNode }) {
           }
         }
       } catch {}
-      const nextP = nextPhaseAfterFocus(state.sessionCount + 1, state.settings)
       // Auto-advance and continue running
       // We cannot dispatch multiple actions synchronously with derivation in reducer; instead, emulate via direct dispatches
       dispatch({ type: 'SKIP' })
@@ -257,4 +256,7 @@ export function usePomodoro(): PomodoroContextValue {
   if (!ctx) throw new Error('usePomodoro must be used within PomodoroProvider')
   return ctx
 }
+
+
+
 

@@ -1,6 +1,7 @@
-import './App.css'
-import { useEffect } from 'react'
+﻿import './App.css'
+import { useEffect, useState } from 'react'
 import { Layout } from './features/layout/Layout'
+import { TaskForm, TaskList } from './features/tasks'
 import { useProjectStore } from './features/projects/store'
 import { useTagStore } from './features/tags/store'
 import { useTaskStore, configureTaskStore } from './features/tasks/store'
@@ -35,12 +36,27 @@ export default function App({
   }, [])
 
   return (
-    <Layout themeMode={themeMode} onToggleTheme={onToggleTheme}>
-      {/* Phase 7 will populate the main content with TaskList/TaskForm */}
-      <div>
-        <h2>Welcome</h2>
-        <p>Use the sidebar to choose a view, search from the top bar, or quick add a task.</p>
-      </div>
-    </Layout>
+    <Layout
+      themeMode={themeMode}
+      onToggleTheme={onToggleTheme}
+      renderMain={(view) => <MainArea view={view} />}
+    />
+  )
+}
+
+function MainArea({ view }: { view: string }) {
+  const [open, setOpen] = useState(false)
+  const [editing, setEditing] = useState<null | import('./shared/types').Task>(null)
+  return (
+    <>
+      <TaskList
+        viewKey={view}
+        onEdit={(t) => {
+          setEditing(t)
+          setOpen(true)
+        }}
+      />
+      <TaskForm open={open} onClose={() => setOpen(false)} task={editing} />
+    </>
   )
 }

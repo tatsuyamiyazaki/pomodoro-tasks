@@ -1,4 +1,4 @@
-import { create } from 'zustand'
+﻿import { create } from 'zustand'
 import { StorageService } from '../../services/storage'
 import type { Task, SubTask, TaskPriority } from '../../shared/types'
 
@@ -71,6 +71,9 @@ export interface CreateTaskInput {
   tagIds?: string[]
   dueDate?: string | null
   priority?: TaskPriority
+  description?: string | null
+  estimatedPomodoros?: number
+  estimatedDurationMinutes?: number
 }
 
 export interface UpdateTaskInput {
@@ -82,6 +85,8 @@ export interface UpdateTaskInput {
   completed?: boolean
   estimatedPomodoros?: number
   completedPomodoros?: number
+  description?: string | null
+  estimatedDurationMinutes?: number
 }
 
 type State = {
@@ -153,6 +158,9 @@ export const useTaskStore = create<State>((set, get) => ({
       tagIds: input.tagIds ?? [],
       dueDate: input.dueDate ?? null,
       priority: input.priority,
+      description: input.description ?? null,
+      estimatedPomodoros: input.estimatedPomodoros,
+      estimatedDurationMinutes: input.estimatedDurationMinutes ?? 25,
       subTasks: [],
       createdAt: now,
       updatedAt: now,
@@ -180,6 +188,8 @@ export const useTaskStore = create<State>((set, get) => ({
           ...('completed' in input ? { completed: Boolean(input.completed) } : {}),
           ...('estimatedPomodoros' in input ? { estimatedPomodoros: input.estimatedPomodoros } : {}),
           ...('completedPomodoros' in input ? { completedPomodoros: input.completedPomodoros } : {}),
+          ...('description' in input ? { description: input.description ?? t.description ?? null } : {}),
+          ...('estimatedDurationMinutes' in input ? { estimatedDurationMinutes: input.estimatedDurationMinutes } : {}),
           updatedAt: isoNow(),
         }
         return updated!
@@ -353,3 +363,6 @@ export const useTaskStore = create<State>((set, get) => ({
 }))
 
 export type { Task, SubTask, TaskPriority }
+
+
+

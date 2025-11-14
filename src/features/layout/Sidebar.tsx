@@ -1,4 +1,4 @@
-import {
+﻿import {
   Badge,
   Box,
   Divider,
@@ -9,11 +9,9 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material'
-import { useMemo } from 'react'
 import { useTaskStore } from '../../features/tasks/store'
 import { useProjectStore } from '../../features/projects/store'
 import { useTagStore } from '../../features/tags/store'
-import type { Task } from '../../shared/types'
 import type { ViewType } from './Layout'
 
 const drawerWidth = 280
@@ -131,4 +129,5 @@ export function Sidebar({
     </>
   )
 }
+
 
