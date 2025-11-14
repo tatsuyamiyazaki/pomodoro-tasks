@@ -174,15 +174,15 @@
 
 ### Phase 7: タスク管理UIの実装
 
-- [ ] 7. TaskFormとTaskListコンポーネントの構築
-- [ ] 7.1 TaskFormの実装
+- [x] 7. TaskFormとTaskListコンポーネントの構築
+- [x] 7.1 TaskFormの実装
   - タスク作成・編集フォームをMaterial-UI Dialogで実装
   - 名前、詳細、期限(DatePicker)、優先度、プロジェクト、タグ、予定ポモドーロ数、予定時間(estimatedDurationMinutes)の入力フィールド
   - バリデーション: 名前必須、期限の妥当性検証、estimatedDurationMinutesのデフォルト値25分
   - TaskStore.createTask()またはupdateTask()を呼び出し
   - _Requirements: 1, 8_
 
-- [ ] 7.2 TaskListの実装
+- [x] 7.2 TaskListの実装
   - TaskStore.getFilteredTasks()でフィルタリング済みタスクを表示
   - タスクカードで名前、期限、優先度、進捗(サブタスク完了率)、ポモドーロ数を表示
   - 期限が24時間以内のタスクを警告色で強調表示
@@ -190,13 +190,13 @@
   - タスククリックでTaskFormを開いて編集可能に
   - _Requirements: 1, 5, 8_
 
-- [ ] 7.3 ドラッグ&ドロップ並び替えの実装
+- [x] 7.3 ドラッグ&ドロップ並び替えの実装
   - @dnd-kit/sortableを使用してタスクリストをドラッグ可能に
   - ドロップ後にTaskStore.reorderTasks()を呼び出し
   - タッチデバイスでも動作するようにタッチセンサーを設定
   - _Requirements: 10_
 
-- [ ] 7.4 サブタスク管理UIの実装
+- [x] 7.4 サブタスク管理UIの実装
   - TaskForm内でサブタスク一覧を表示
   - サブタスク追加フィールドとTaskStore.addSubTask()の呼び出し
   - サブタスクの完了チェックボックスとToggleSubTaskCompletion()の呼び出し
@@ -204,7 +204,7 @@
   - 親タスクの進捗バーでサブタスク完了率を視覚化
   - _Requirements: 2_
 
-- [ ] 7.5 タスク完了アニメーションの実装
+- [x] 7.5 タスク完了アニメーションの実装
   - タスク完了時にフェードアウトまたはチェックマークアニメーションを表示
   - Material-UI Transitionコンポーネントを活用
   - _Requirements: 10_
