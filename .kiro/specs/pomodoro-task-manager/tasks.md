@@ -146,26 +146,26 @@
 
 ### Phase 6: UIレイアウトとテーマ管理
 
-- [ ] 6. アプリケーションレイアウトとテーマの実装
-- [ ] 6.1 Material-UIテーマの設定
+- [x] 6. アプリケーションレイアウトとテーマの実装
+- [x] 6.1 Material-UIテーマの設定
   - ライトモードとダークモードのテーマ定義
   - ThemeProviderとuseStateでテーマ切り替え機能を実装
   - localStorageでテーマ設定を永続化
   - _Requirements: 10_
 
-- [ ] 6.2 Layoutコンポーネントの構築
+- [x] 6.2 Layoutコンポーネントの構築
   - サイドバー、メインコンテンツエリア、トップバーの3ペインレイアウトを実装
   - Material-UI DrawerとAppBarコンポーネントを使用
   - レスポンシブデザインでモバイルデバイス対応(Drawer collapsible)
   - _Requirements: 10_
 
-- [ ] 6.3 (P) TopBarコンポーネントの実装
+- [x] 6.3 (P) TopBarコンポーネントの実装
   - アプリタイトル、クイックタスク追加ボタン、検索バー、テーマ切り替えボタンを配置
   - クイックタスク追加でTaskStore.createTask()をデフォルト値で呼び出し
   - 検索バーでTaskStore.setSearchQuery()を呼び出し
   - _Requirements: 1, 10_
 
-- [ ] 6.4 (P) Sidebarコンポーネントの実装
+- [x] 6.4 (P) Sidebarコンポーネントの実装
   - ビュー選択リスト(9種類のViewType)を表示
   - タグ一覧とプロジェクト一覧を表示
   - 各ビュー/タグ/プロジェクトのタスク数をバッジで表示
