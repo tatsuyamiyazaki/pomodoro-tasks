@@ -26,6 +26,10 @@ export interface Task {
   dueDate?: string | null
   /** Optional priority for sorting and filters */
   priority?: TaskPriority
+  /** Planned pomodoro count for this task */
+  estimatedPomodoros?: number
+  /** Completed pomodoro sessions recorded */
+  completedPomodoros?: number
   /** Optional subtasks */
   subTasks?: SubTask[]
   createdAt?: string // ISO 8601
