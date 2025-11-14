@@ -112,32 +112,32 @@
 
 ### Phase 5: ポモドーロタイマーの状態管理
 
-- [ ] 5. PomodoroContextの実装
-- [ ] 5.1 タイマー状態管理の構築
+- [x] 5. PomodoroContextの実装
+- [x] 5.1 タイマー状態管理の構築
   - PomodoroContextとuseReducerでタイマー状態を管理
   - startPomodoro, pausePomodoro, resumePomodoro, resetPomodoro, skipPhaseを実装
   - useRefでタイマーinterval IDを保持し、useEffectでカウントダウン処理
   - _Requirements: 7_
 
-- [ ] 5.2 セッションフロー管理の実装
+- [x] 5.2 セッションフロー管理の実装
   - Focus → Short break → Long breakのフェーズ遷移ロジック
   - longBreakInterval(デフォルト4)ごとにLong breakへ遷移
   - セッション完了時のNotification API呼び出し(サポートされている場合)
   - _Requirements: 7_
 
-- [ ] 5.3 ポモドーロ数記録とTaskStoreとの統合
+- [x] 5.3 ポモドーロ数記録とTaskStoreとの統合
   - セッション完了時にTaskStore.updateTask()でcompletedPomodorosを更新
   - タスクIDの存在確認とエラーハンドリング
   - タイマー実行中のcurrentTaskIdを管理
   - _Requirements: 7_
 
-- [ ] 5.4 設定のカスタマイズと永続化
+- [x] 5.4 設定のカスタマイズと永続化
   - updateSettings()でfocusDuration, shortBreakDuration, longBreakDuration, longBreakIntervalを変更可能に
   - 設定のみlocalStorageに保存し、アプリ再起動時に復元
   - 設定値の正の整数検証
   - _Requirements: 7, 9_
 
-- [ ] 5.5 (P) PomodoroContextのユニットテスト
+- [x] 5.5 (P) PomodoroContextのユニットテスト
   - タイマーのカウントダウンとフェーズ遷移をテスト
   - startPomodoro, pause, resume, reset, skipPhaseの動作をテスト
   - セッション完了時のTaskStore連携をモックでテスト
