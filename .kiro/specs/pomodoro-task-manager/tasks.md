@@ -88,22 +88,22 @@
 
 ### Phase 4: プロジェクトとタグの状態管理
 
-- [ ] 4. ProjectStoreとTagStoreの実装
-- [ ] 4.1 (P) ProjectStoreの構築
+- [x] 4. ProjectStoreとTagStoreの実装
+- [x] 4.1 (P) ProjectStoreの構築
   - createProject, updateProject, deleteProject, getProjectByIdを実装
   - プロジェクト削除時の確認ダイアログとprojectIdのnull設定ロジック
   - getProjectStats()でタスク統計(totalTasks, completedTasks)を計算
   - StorageServiceと連携してlocalStorageに保存
   - _Requirements: 3, 9_
 
-- [ ] 4.2 (P) TagStoreの構築
+- [x] 4.2 (P) TagStoreの構築
   - createTag, updateTag, deleteTag, getOrCreateTagを実装
   - タグ名の重複検証ロジック
   - getTagTaskCount()でタグごとのタスク数を計算
   - StorageServiceと連携してlocalStorageに保存
   - _Requirements: 4, 9_
 
-- [ ] 4.3 (P) ProjectStoreとTagStoreのユニットテスト
+- [x] 4.3 (P) ProjectStoreとTagStoreのユニットテスト
   - プロジェクト/タグCRUD操作の正常系とエラー系をテスト
   - プロジェクト削除時の関連タスク処理をテスト
   - タグ名重複検証とgetOrCreateTagの動作をテスト
