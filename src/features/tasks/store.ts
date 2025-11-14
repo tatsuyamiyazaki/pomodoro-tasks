@@ -80,6 +80,8 @@ export interface UpdateTaskInput {
   dueDate?: string | null
   priority?: TaskPriority
   completed?: boolean
+  estimatedPomodoros?: number
+  completedPomodoros?: number
 }
 
 type State = {
@@ -176,6 +178,8 @@ export const useTaskStore = create<State>((set, get) => ({
           ...('dueDate' in input ? { dueDate: input.dueDate ?? null } : {}),
           ...('priority' in input ? { priority: input.priority } : {}),
           ...('completed' in input ? { completed: Boolean(input.completed) } : {}),
+          ...('estimatedPomodoros' in input ? { estimatedPomodoros: input.estimatedPomodoros } : {}),
+          ...('completedPomodoros' in input ? { completedPomodoros: input.completedPomodoros } : {}),
           updatedAt: isoNow(),
         }
         return updated!
