@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react'
+﻿import { ReactNode, useState } from 'react'
 import { Box } from '@mui/material'
 import { TopBar } from './TopBar'
 import { Sidebar } from './Sidebar'
@@ -18,10 +18,12 @@ export function Layout({
   children,
   themeMode,
   onToggleTheme,
+  renderMain,
 }: {
-  children: ReactNode
+  children?: ReactNode
   themeMode: 'light' | 'dark'
   onToggleTheme: () => void
+  renderMain?: (view: ViewType) => React.ReactNode
 }) {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [selectedView, setSelectedView] = useState<ViewType>('all')
@@ -40,7 +42,7 @@ export function Layout({
         onSelectView={setSelectedView}
       />
       <Box component="main" sx={{ flexGrow: 1, p: 2, mt: 8, overflow: 'auto' }}>
-        {children}
+        {renderMain ? renderMain(selectedView) : children}
       </Box>
     </Box>
   )

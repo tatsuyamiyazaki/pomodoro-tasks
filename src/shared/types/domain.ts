@@ -1,4 +1,4 @@
-// Minimal domain types to satisfy design-time contracts.
+﻿// Minimal domain types to satisfy design-time contracts.
 // These will be fleshed out in later phases.
 
 /** Subtask definition */
@@ -30,6 +30,8 @@ export interface Task {
   estimatedPomodoros?: number
   /** Completed pomodoro sessions recorded */
   completedPomodoros?: number
+  /** Optional planned duration in minutes (default 25) */
+  estimatedDurationMinutes?: number
   /** Optional subtasks */
   subTasks?: SubTask[]
   createdAt?: string // ISO 8601
