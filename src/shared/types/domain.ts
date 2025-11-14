@@ -36,6 +36,8 @@ export interface Task {
 export interface Project {
   id: string
   name: string
+  /** Optional free-form description */
+  description?: string | null
   color?: string
   createdAt?: string
   updatedAt?: string
@@ -46,6 +48,8 @@ export interface Tag {
   id: string
   name: string
   color?: string
+  createdAt?: string // ISO 8601
+  updatedAt?: string // ISO 8601
 }
 
 /** Pomodoro timer settings */
