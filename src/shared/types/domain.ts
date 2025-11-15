@@ -18,6 +18,7 @@ export interface Task {
   id: string
   name: string
   completed: boolean
+  completedAt?: string | null
   projectId?: string | null
   tagIds?: string[]
   /** Optional free-form description/notes */

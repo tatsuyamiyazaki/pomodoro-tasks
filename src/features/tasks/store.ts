@@ -158,6 +158,7 @@ export const useTaskStore = create<State>((set, get) => ({
       id: genId(),
       name: input.name,
       completed: false,
+      completedAt: null,
       projectId: input.projectId ?? null,
       tagIds: input.tagIds ?? [],
       dueDate: input.dueDate ?? null,
@@ -182,6 +183,15 @@ export const useTaskStore = create<State>((set, get) => ({
     set((s) => {
       const tasks = s.tasks.map((t) => {
         if (t.id !== id) return t
+        const now = isoNow()
+        const completedPatch = (() => {
+          if (!('completed' in input)) return {}
+          const nextCompleted = Boolean(input.completed)
+          return {
+            completed: nextCompleted,
+            completedAt: nextCompleted ? now : null,
+          }
+        })()
         updated = {
           ...t,
           ...('name' in input ? { name: input.name ?? t.name } : {}),
@@ -189,12 +199,12 @@ export const useTaskStore = create<State>((set, get) => ({
           ...('tagIds' in input ? { tagIds: input.tagIds ?? [] } : {}),
           ...('dueDate' in input ? { dueDate: input.dueDate ?? null } : {}),
           ...('priority' in input ? { priority: input.priority } : {}),
-          ...('completed' in input ? { completed: Boolean(input.completed) } : {}),
+          ...completedPatch,
           ...('estimatedPomodoros' in input ? { estimatedPomodoros: input.estimatedPomodoros } : {}),
           ...('completedPomodoros' in input ? { completedPomodoros: input.completedPomodoros } : {}),
           ...('description' in input ? { description: input.description ?? t.description ?? null } : {}),
           ...('estimatedDurationMinutes' in input ? { estimatedDurationMinutes: input.estimatedDurationMinutes } : {}),
-          updatedAt: isoNow(),
+          updatedAt: now,
         }
         return updated!
       })
@@ -217,7 +227,9 @@ export const useTaskStore = create<State>((set, get) => ({
     set((s) => {
       const tasks = s.tasks.map((t) => {
         if (t.id !== id) return t
-        updated = { ...t, completed: !t.completed, updatedAt: isoNow() }
+        const now = isoNow()
+        const nextCompleted = !t.completed
+        updated = { ...t, completed: nextCompleted, completedAt: nextCompleted ? now : null, updatedAt: now }
         return updated!
       })
       scheduleSave(tasks)

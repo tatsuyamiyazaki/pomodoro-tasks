@@ -4,6 +4,7 @@ import { TopBar } from './TopBar'
 import { Sidebar } from './Sidebar'
 
 export type ViewType =
+  | 'dashboard'
   | 'today'
   | 'overdue'
   | 'tomorrow'
@@ -26,7 +27,7 @@ export function Layout({
   renderMain?: (view: ViewType) => React.ReactNode
 }) {
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [selectedView, setSelectedView] = useState<ViewType>('all')
+  const [selectedView, setSelectedView] = useState<ViewType>('dashboard')
 
   return (
     <Box sx={{ display: 'flex', height: '100vh', width: '100vw', overflow: 'hidden' }}>

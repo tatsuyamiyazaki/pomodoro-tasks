@@ -20,7 +20,8 @@ import type { ViewType } from './Layout'
 
 const drawerWidth = 280
 
-const VIEWS: { key: ViewType; label: string }[] = [
+const VIEWS: { key: ViewType; label: string; showCount?: boolean }[] = [
+  { key: 'dashboard', label: '概要', showCount: false },
   { key: 'today', label: '今日' },
   { key: 'overdue', label: '期限切れ' },
   { key: 'tomorrow', label: '明日' },
@@ -63,7 +64,7 @@ export function Sidebar({
         {VIEWS.map((v) => (
           <ListItemButton key={v.key} selected={selectedView === v.key} onClick={() => onSelectView(v.key)}>
             <ListItemText primary={v.label} />
-            <Badge color="primary" badgeContent={getFilteredTasks(v.key).length} />
+            {v.showCount === false ? null : <Badge color="primary" badgeContent={getFilteredTasks(v.key).length} />}
           </ListItemButton>
         ))}
       </List>
