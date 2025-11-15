@@ -1,11 +1,13 @@
 ﻿import './App.css'
 import { useEffect, useState } from 'react'
+import { Box } from '@mui/material'
 import { Layout } from './features/layout/Layout'
 import { TaskForm, TaskList } from './features/tasks'
 import { PomodoroTimer } from './features/pomodoro'
 import { useProjectStore } from './features/projects/store'
 import { useTagStore } from './features/tags/store'
 import { useTaskStore, configureTaskStore } from './features/tasks/store'
+import { DashboardStats } from './features/dashboard'
 
 export default function App({
   themeMode,
@@ -45,20 +47,28 @@ export default function App({
   )
 }
 
-function MainArea({ view }: { view: string }) {
+function MainArea({ view }: { view: import('./features/layout/Layout').ViewType }) {
   const [open, setOpen] = useState(false)
   const [editing, setEditing] = useState<null | import('./shared/types').Task>(null)
   return (
     <>
       <PomodoroTimer />
-      <TaskList
-        viewKey={view}
-        onEdit={(t) => {
-          setEditing(t)
-          setOpen(true)
-        }}
-      />
-      <TaskForm open={open} onClose={() => setOpen(false)} task={editing} />
+      {view === 'dashboard' ? (
+        <Box sx={{ mt: 2 }}>
+          <DashboardStats />
+        </Box>
+      ) : (
+        <>
+          <TaskList
+            viewKey={view}
+            onEdit={(t) => {
+              setEditing(t)
+              setOpen(true)
+            }}
+          />
+          <TaskForm open={open} onClose={() => setOpen(false)} task={editing} />
+        </>
+      )}
     </>
   )
 }

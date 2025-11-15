@@ -28,6 +28,7 @@ describe('TaskStore', () => {
     const t = createTask({ name: 'A', priority: 'medium' })
     expect(useTaskStore.getState().tasks.length).toBe(1)
     expect(t.completed).toBe(false)
+    expect(t.completedAt).toBeNull()
 
     const upd = updateTask(t.id, { name: 'A*', priority: 'high' })
     expect(upd).not.toBeNull()
@@ -36,6 +37,11 @@ describe('TaskStore', () => {
 
     const toggled = toggleTaskCompletion(t.id)
     expect(toggled!.completed).toBe(true)
+    expect(typeof toggled!.completedAt).toBe('string')
+
+    const untoggled = toggleTaskCompletion(t.id)
+    expect(untoggled!.completed).toBe(false)
+    expect(untoggled!.completedAt).toBeNull()
 
     deleteTask(t.id)
     expect(useTaskStore.getState().tasks.length).toBe(0)
