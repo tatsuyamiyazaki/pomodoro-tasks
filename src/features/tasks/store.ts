@@ -92,6 +92,7 @@ export interface UpdateTaskInput {
 type State = {
   tasks: Task[]
   searchQuery: string
+  selectedTagId: string | null
   setResolvers: (resolvers: Partial<Resolvers>) => void
   // CRUD
   createTask: (input: CreateTaskInput) => Task
@@ -106,6 +107,7 @@ type State = {
   // Derived/queries
   getFilteredTasks: (filter: TaskFilter) => Task[]
   setSearchQuery: (q: string) => void
+  setSelectedTagId: (id: string | null) => void
   reorderTasks: (taskIds: string[]) => void
   // Init/load
   loadFromStorage: () => void
@@ -135,11 +137,13 @@ export const useTaskStore = create<State>((set, get) => ({
     return loaded.ok && Array.isArray(loaded.value) ? loaded.value : []
   })(),
   searchQuery: '',
+  selectedTagId: null,
   setResolvers: (res) => {
     configureTaskStore({ resolvers: res })
   },
 
   setSearchQuery: (q) => set({ searchQuery: q ?? '' }),
+  setSelectedTagId: (id) => set({ selectedTagId: id ?? null }),
 
   loadFromStorage: () => {
     const loaded = storage.load<Task[]>('tasks')
@@ -295,7 +299,9 @@ export const useTaskStore = create<State>((set, get) => ({
   getFilteredTasks: (filter) => {
     const q = get().searchQuery.trim().toLowerCase()
     const tasks = get().tasks
-    if (filter === 'all' && q.length === 0) return tasks.slice()
+    const sid = get().selectedTagId
+    const base = sid ? tasks.filter((t) => (t.tagIds ?? []).includes(sid)) : tasks
+    if (filter === 'all' && q.length === 0) return base.slice()
     const now = new Date()
     const today = toStartOfDay(now).getTime()
     const inDays = (n: number) => new Date(toStartOfDay(now).getTime() + n * 86400000)
@@ -306,7 +312,7 @@ export const useTaskStore = create<State>((set, get) => ({
       return toStartOfDay(inDays(diff))
     })()
 
-    const byFilter = tasks.filter((t) => {
+    const byFilter = base.filter((t) => {
       const due = parseDate(t.dueDate)?.getTime() ?? null
       switch (filter) {
         case 'completed':
