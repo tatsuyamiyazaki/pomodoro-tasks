@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react'
 import { Layout } from './features/layout/Layout'
 import { TaskForm, TaskList } from './features/tasks'
+import { PomodoroTimer } from './features/pomodoro'
 import { useProjectStore } from './features/projects/store'
 import { useTagStore } from './features/tags/store'
 import { useTaskStore, configureTaskStore } from './features/tasks/store'
@@ -49,6 +50,7 @@ function MainArea({ view }: { view: string }) {
   const [editing, setEditing] = useState<null | import('./shared/types').Task>(null)
   return (
     <>
+      <PomodoroTimer />
       <TaskList
         viewKey={view}
         onEdit={(t) => {
