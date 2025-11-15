@@ -10,14 +10,22 @@ import {
   Typography,
   IconButton,
   Fade,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from '@mui/material'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked'
+import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import { DndContext, PointerSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core'
 import { SortableContext, arrayMove, useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { useTaskStore } from './store'
 import type { Task } from '../../shared/types'
+import { usePomodoro } from '../pomodoro'
 
 function SubtaskProgress({ task }: { task: Task }) {
   const subs = task.subTasks ?? []
@@ -36,7 +44,35 @@ function SubtaskProgress({ task }: { task: Task }) {
   )
 }
 
-function TaskCard({ task, onClick, viewKey }: { task: Task; onClick: () => void; viewKey: string }) {
+function PomodoroProgress({ task }: { task: Task }) {
+  if (typeof task.estimatedPomodoros !== 'number' || task.estimatedPomodoros <= 0) return null
+  const completed = task.completedPomodoros ?? 0
+  const pct = Math.min(100, Math.max(0, (completed / task.estimatedPomodoros) * 100))
+  return (
+    <Stack spacing={0.5} sx={{ mt: 1 }}>
+      <LinearProgress variant="determinate" value={pct} />
+      <Typography variant="caption" color="text.secondary">
+        🍅 {completed}/{task.estimatedPomodoros} ポモドーロ
+      </Typography>
+    </Stack>
+  )
+}
+
+function TaskCard({
+  task,
+  onClick,
+  viewKey,
+  onStart,
+  isActive,
+  isTimerRunning,
+}: {
+  task: Task
+  onClick: () => void
+  viewKey: string
+  onStart: () => void
+  isActive: boolean
+  isTimerRunning: boolean
+}) {
   const toggleTaskCompletion = useTaskStore((s) => s.toggleTaskCompletion)
   const due = task.dueDate ? new Date(task.dueDate) : null
   const now = new Date()
@@ -59,8 +95,17 @@ function TaskCard({ task, onClick, viewKey }: { task: Task; onClick: () => void;
       <Card
         variant="outlined"
         sx={{
-          borderLeft: overdue ? '4px solid #f44336' : within24h ? '4px solid #ff9800' : '4px solid transparent',
+          borderLeft: isActive
+            ? '4px solid #1976d2'
+            : overdue
+              ? '4px solid #f44336'
+              : within24h
+                ? '4px solid #ff9800'
+                : '4px solid transparent',
           opacity: task.completed && viewKey !== 'completed' ? 0.5 : 1,
+          boxShadow: isActive ? 4 : undefined,
+          transition: 'box-shadow 0.2s ease, transform 0.2s ease',
+          transform: isActive ? 'scale(1.01)' : 'scale(1)',
         }}
       >
         <CardActionArea onClick={onClick}>
@@ -88,6 +133,22 @@ function TaskCard({ task, onClick, viewKey }: { task: Task; onClick: () => void;
                 <Box sx={{ mt: 1 }}>
                   <SubtaskProgress task={task} />
                 </Box>
+                <PomodoroProgress task={task} />
+                <Stack direction="row" spacing={1} sx={{ mt: 1 }}>
+                  <Button
+                    size="small"
+                    variant={isActive ? 'contained' : 'outlined'}
+                    color={isActive ? 'primary' : 'inherit'}
+                    startIcon={<PlayArrowIcon fontSize="small" />}
+                    disabled={isActive && isTimerRunning}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      onStart()
+                    }}
+                  >
+                    {isActive ? (isTimerRunning ? '実行中' : '再開') : '開始'}
+                  </Button>
+                </Stack>
               </Box>
             </Stack>
           </CardContent>
@@ -97,12 +158,26 @@ function TaskCard({ task, onClick, viewKey }: { task: Task; onClick: () => void;
   )
 }
 
-function SortableItem({ task, onClick, viewKey }: { task: Task; onClick: () => void; viewKey: string }) {
+function SortableItem({
+  task,
+  onClick,
+  viewKey,
+  onStart,
+  isActive,
+  isTimerRunning,
+}: {
+  task: Task
+  onClick: () => void
+  viewKey: string
+  onStart: () => void
+  isActive: boolean
+  isTimerRunning: boolean
+}) {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: task.id })
   const style = { transform: CSS.Transform.toString(transform), transition }
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      <TaskCard task={task} onClick={onClick} viewKey={viewKey} />
+      <TaskCard task={task} onClick={onClick} viewKey={viewKey} onStart={onStart} isActive={isActive} isTimerRunning={isTimerRunning} />
     </div>
   )
 }
@@ -110,14 +185,30 @@ function SortableItem({ task, onClick, viewKey }: { task: Task; onClick: () => v
 export function TaskList({ viewKey, onEdit }: { viewKey: string; onEdit: (task: Task) => void }) {
   const getFilteredTasks = useTaskStore((s) => s.getFilteredTasks)
   const reorderTasks = useTaskStore((s) => s.reorderTasks)
+  const { startPomodoro, currentTaskId, isRunning } = usePomodoro()
 
   const tasks = getFilteredTasks(viewKey as any)
   const [items, setItems] = useState(tasks.map((t) => t.id))
+  const [pendingTask, setPendingTask] = useState<Task | null>(null)
 
   // keep ids in sync on filter/view changes
   const visibleTasks = useMemo(() => getFilteredTasks(viewKey as any), [getFilteredTasks, viewKey])
 
   const sensors = useSensors(useSensor(PointerSensor), useSensor(TouchSensor))
+
+  const handleStart = (task: Task) => {
+    if (isRunning && currentTaskId && currentTaskId !== task.id) {
+      setPendingTask(task)
+      return
+    }
+    startPomodoro(task.id)
+  }
+
+  const confirmSwitch = () => {
+    if (!pendingTask) return
+    startPomodoro(pendingTask.id)
+    setPendingTask(null)
+  }
 
   const onDragEnd = (event: any) => {
     const { active, over } = event
@@ -134,7 +225,15 @@ export function TaskList({ viewKey, onEdit }: { viewKey: string; onEdit: (task: 
       <SortableContext items={visibleTasks.map((t) => t.id)}>
         <Stack spacing={1.5}>
           {visibleTasks.map((t) => (
-            <SortableItem key={t.id} task={t} viewKey={viewKey} onClick={() => onEdit(t)} />
+            <SortableItem
+              key={t.id}
+              task={t}
+              viewKey={viewKey}
+              onClick={() => onEdit(t)}
+              onStart={() => handleStart(t)}
+              isActive={currentTaskId === t.id}
+              isTimerRunning={isRunning}
+            />
           ))}
           {visibleTasks.length === 0 && (
             <Typography color="text.secondary" sx={{ mt: 2 }}>
@@ -143,6 +242,20 @@ export function TaskList({ viewKey, onEdit }: { viewKey: string; onEdit: (task: 
           )}
         </Stack>
       </SortableContext>
+      <Dialog open={Boolean(pendingTask)} onClose={() => setPendingTask(null)}>
+        <DialogTitle>タイマーを中断しますか？</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            現在別のタスクでタイマーが実行中です。{pendingTask?.name}に切り替えると現在のセッションが停止します。
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setPendingTask(null)}>キャンセル</Button>
+          <Button onClick={confirmSwitch} color="primary" variant="contained">
+            切り替える
+          </Button>
+        </DialogActions>
+      </Dialog>
     </DndContext>
   )
 }
