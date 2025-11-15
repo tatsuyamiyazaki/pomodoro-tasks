@@ -12,6 +12,10 @@
 import { useTaskStore } from '../../features/tasks/store'
 import { useProjectStore } from '../../features/projects/store'
 import { useTagStore } from '../../features/tags/store'
+import { TagFilter } from '../../features/tags/TagFilter'
+import { useState } from 'react'
+import { Button } from '@mui/material'
+import { ProjectForm } from '../projects/ProjectForm'
 import type { ViewType } from './Layout'
 
 const drawerWidth = 280
@@ -42,8 +46,9 @@ export function Sidebar({
   const getFilteredTasks = useTaskStore((s) => s.getFilteredTasks)
   const projects = useProjectStore((s) => s.projects)
   const getProjectStats = useProjectStore((s) => s.getProjectStats)
-  const tags = useTagStore((s) => s.tags)
-  const getTagTaskCount = useTagStore((s) => s.getTagTaskCount)
+  // Tag list rendering moved to TagFilter component
+  const [projOpen, setProjOpen] = useState(false)
+  const [editingProject, setEditingProject] = useState<null | import('../../shared/types').Project>(null)
 
   // Drawer content
   const content = (
@@ -69,12 +74,15 @@ export function Sidebar({
         <Typography variant="overline" color="text.secondary">
           プロジェクト
         </Typography>
+        <Button size="small" sx={{ ml: 1 }} onClick={() => { setEditingProject(null); setProjOpen(true) }}>
+          追加
+        </Button>
       </Box>
       <List>
         {projects.map((p) => {
           const stats = getProjectStats(p.id)
           return (
-            <ListItemButton key={p.id}>
+            <ListItemButton key={p.id} onClick={() => { setEditingProject(p); setProjOpen(true) }}>
               <ListItemText primary={p.name} />
               <Badge color="secondary" badgeContent={stats.totalTasks} />
             </ListItemButton>
@@ -89,14 +97,9 @@ export function Sidebar({
           タグ
         </Typography>
       </Box>
-      <List>
-        {tags.map((t) => (
-          <ListItemButton key={t.id}>
-            <ListItemText primary={t.name} />
-            <Badge color="default" badgeContent={getTagTaskCount(t.id)} />
-          </ListItemButton>
-        ))}
-      </List>
+      <TagFilter onSelectView={onSelectView} />
+
+      <ProjectForm open={projOpen} onClose={() => setProjOpen(false)} project={editingProject} />
     </Box>
   )
 
