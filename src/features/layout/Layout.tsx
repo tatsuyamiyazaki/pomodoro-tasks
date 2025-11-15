@@ -15,6 +15,8 @@ export type ViewType =
   | 'completed'
   | 'all'
 
+const APP_MAX_WIDTH = 1200
+
 export function Layout({
   children,
   themeMode,
@@ -30,7 +32,16 @@ export function Layout({
   const [selectedView, setSelectedView] = useState<ViewType>('dashboard')
 
   return (
-    <Box sx={{ display: 'flex', height: '100vh', width: '100vw', overflow: 'hidden' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        minHeight: '100vh',
+        width: '100%',
+        maxWidth: APP_MAX_WIDTH,
+        mx: 'auto',
+        overflow: 'hidden',
+      }}
+    >
       <TopBar
         themeMode={themeMode}
         onToggleTheme={onToggleTheme}
