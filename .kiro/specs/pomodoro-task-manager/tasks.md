@@ -229,22 +229,22 @@
 
 ### Phase 9: ポモドーロタイマーUIの実装
 
-- [ ] 9. PomodoroTimerコンポーネントの構築
-- [ ] 9.1 タイマー表示と制御UIの実装
+- [x] 9. PomodoroTimerコンポーネントの構築
+- [x] 9.1 タイマー表示と制御UIの実装
   - 円形プログレスバー(Material-UI CircularProgress)で残り時間を視覚化
   - 開始/一時停止/再開/リセット/スキップボタンを配置
   - 現在のフェーズ(Focus, Short Break, Long Break)を表示
   - PomodoroContext.startPomodoro()などのアクションを呼び出し
   - _Requirements: 7_
 
-- [ ] 9.2 タスクとの統合UIの実装
+- [x] 9.2 タスクとの統合UIの実装
   - TaskList内でタスクごとにポモドーロ開始ボタンを配置
   - タイマー実行中は現在のタスクを強調表示
   - タスクのestimatedPomodorosとcompletedPomodorosを比較して進捗を表示
   - タイマー中断時の確認ダイアログ
   - _Requirements: 7_
 
-- [ ] 9.3 ポモドーロ設定UIの実装
+- [x] 9.3 ポモドーロ設定UIの実装
   - 設定画面(Material-UI Dialog)でfocusDuration, shortBreakDuration, longBreakDuration, longBreakIntervalを編集可能に
   - PomodoroContext.updateSettings()を呼び出し
   - 設定値の正の整数検証
