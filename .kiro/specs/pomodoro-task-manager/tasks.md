@@ -211,8 +211,8 @@
 
 ### Phase 8: プロジェクトとタグ管理UIの実装
 
-- [ ] 8. ProjectFormとTagFilterコンポーネントの構築
-- [ ] 8.1 (P) ProjectFormの実装
+- [x] 8. ProjectFormとTagFilterコンポーネントの構築
+- [x] 8.1 (P) ProjectFormの実装
   - プロジェクト作成・編集フォームをMaterial-UI Dialogで実装
   - 名前、説明、色設定(ColorPicker)の入力フィールド
   - バリデーション: 名前必須、color形式検証(Hex)
@@ -220,7 +220,7 @@
   - プロジェクト削除ボタンと確認ダイアログ(関連タスク数の表示)
   - _Requirements: 3_
 
-- [ ] 8.2 (P) TagFilterの実装
+- [x] 8.2 (P) TagFilterの実装
   - Sidebar内でタグ一覧を表示
   - 各タグのタスク数バッジを表示
   - タグクリックでTaskStore.setSelectedView('all')とtagフィルタを適用
